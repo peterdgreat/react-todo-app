@@ -36,17 +36,24 @@ export default function TodoContainer() {
     );
   };
 
+  const delList = (id) => {
+    setState(
+      todos.filter((todo) => todo.id !== id),
+    );
+  };
+
   if (todos) {
     return (
       <ul>
 
-        {todos.map((tdo) => (
+        {todos.map((todo) => (
           <TodosList
-            title={tdo.title}
-            completed={tdo.completed}
-            key={tdo.id}
-            id={tdo.id}
+            title={todo.title}
+            completed={todo.completed}
+            key={todo.id}
+            id={todo.id}
             handlechange={changeState}
+            deletelist={delList}
           />
         ))}
       </ul>

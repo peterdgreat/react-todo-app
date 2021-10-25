@@ -5,11 +5,15 @@ export default function TodosList(props) {
   // eslint-disable-next-line react/prop-types
   const {
     // eslint-disable-next-line react/prop-types
-    title, completed, id, handlechange,
+    title, completed, id, handlechange, deletelist,
   } = props;
 
   const handleChange = () => {
     handlechange(id);
+  };
+
+  const deleteList = () => {
+    deletelist(id);
   };
 
   return (
@@ -18,7 +22,7 @@ export default function TodosList(props) {
       <input type="checkbox" checked={completed} onChange={handleChange} />
       {title}
 
-      <button>Delete</button>
+      <button onClick={deleteList}>Delete</button>
 
     </li>
 
