@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import TodosList from './TodosList';
 
 export default function TodoContainer() {
@@ -20,9 +20,37 @@ export default function TodoContainer() {
     },
   ];
 
-  const [state] = useState(todo);
-  return (
-    // eslint-disable-next-line react/jsx-key
-    state.map((todo) => <TodosList title={todo.title} completed={todo.completed} />)
-  );
+  const [state, setState] = useState(todo);
+  const todos = state;
+  const changeState = (id) => {
+    setState(
+      todos.map((todo) => {
+        if (todo.id === id) {
+          return {
+            ...todo,
+            completed: !todo.completed,
+          };
+        }
+        return todo;
+      }),
+    );
+  };
+
+  if (todos) {
+    return (
+      <ul>
+
+        {todos.map((tdo) => (
+          <TodosList
+            title={tdo.title}
+            completed={tdo.completed}
+            key={tdo.id}
+            id={tdo.id}
+            handlechange={changeState}
+          />
+        ))}
+      </ul>
+
+    );
+  }
 }
