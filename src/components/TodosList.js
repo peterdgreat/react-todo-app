@@ -1,5 +1,6 @@
 /* eslint-disable react/button-has-type */
 import React, { useState } from 'react';
+import { FaTrash } from 'react-icons/fa';
 import styles from './TodoItem.module.css';
 
 export default function TodosList(props) {
@@ -53,7 +54,9 @@ export default function TodosList(props) {
           {title}
         </span>
 
-        <button onClick={deleteList}>Delete</button>
+        <button onClick={deleteList}>
+          <FaTrash style={{ color: 'orangered', fontSize: '16px' }} />
+        </button>
       </div>
       <input type="text" style={editMode} className={styles.textInput} value={title} onChange={setUpdate} onKeyDown={handleUpdateDone} />
     </li>
