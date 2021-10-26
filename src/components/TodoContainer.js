@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import TodosList from './TodosList';
 import InputTodo from './InputTodo';
@@ -25,6 +25,16 @@ export default function TodoContainer() {
 
   const [state, setState] = useState(todo);
   const todos = state;
+  const setLocalStorage = () => {
+    localStorage.setItem('todos', JSON.stringify(todos));
+  };
+
+  const getLocalStorage = () => {
+    const localStorageTodos = JSON.parse(localStorage.getItem('todos'));
+    if (localStorageTodos) {
+      setState(localStorageTodos);
+    }
+  };
   const changeState = (id) => {
     setState(
       todos.map((todo) => {
@@ -51,7 +61,27 @@ export default function TodoContainer() {
       completed: false,
     };
     setState((prevState) => [...prevState, newTodo]);
+    setLocalStorage();
   };
+
+  const setUpdate = (updatedtitle, id) => {
+    setState(
+      todos.map((todo) => {
+        if (todo.id === id) {
+          // eslint-disable-next-line no-param-reassign
+          todo.title = updatedtitle;
+        }
+        return todo;
+      }),
+    );
+  };
+
+  useEffect(() => {
+    getLocalStorage();
+  }, [setState]);
+  useEffect(() => {
+    setLocalStorage();
+  }, [todos]);
 
   if (todos) {
     return (
@@ -69,6 +99,7 @@ export default function TodoContainer() {
               id={todo.id}
               handlechange={changeState}
               deletelist={delList}
+              setupdate={setUpdate}
             />
           ))}
         </ul>
