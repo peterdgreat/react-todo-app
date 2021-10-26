@@ -22,8 +22,14 @@ export default function TodoContainer() {
       completed: false,
     },
   ];
+  function getInitialTodos() {
+    // getting stored items
+    const temp = localStorage.getItem('todos');
+    const savedTodos = JSON.parse(temp);
+    return savedTodos || todo;
+  }
 
-  const [state, setState] = useState(todo);
+  const [state, setState] = useState(getInitialTodos());
   const todos = state;
   const setLocalStorage = () => {
     localStorage.setItem('todos', JSON.stringify(todos));
@@ -78,7 +84,7 @@ export default function TodoContainer() {
 
   useEffect(() => {
     getLocalStorage();
-  }, [setState]);
+  }, []);
   useEffect(() => {
     setLocalStorage();
   }, [todos]);
